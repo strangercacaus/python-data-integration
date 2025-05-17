@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from src.loaders.base_loader import BaseLoader
+from src.destinations.base_destination import BaseLoader
 
 
 class TestBaseLoader:

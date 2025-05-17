@@ -5,7 +5,7 @@ from sqlalchemy import text
 import psycopg2
 from sqlalchemy import exc as sa_exc
 
-from src.loaders.postgres_loader import PostgresLoader
+from src.destinations.postgres_destination import PostgresLoader
 
 
 class TestPostgresLoader:

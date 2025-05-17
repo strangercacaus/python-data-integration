@@ -2,7 +2,7 @@ import json
 import pytest
 from unittest.mock import patch, MagicMock, call
 import pandas as pd
-from src.extractors.notion_extractor import NotionDatabaseAPIExtractor
+from src.sources.notion_extractor import NotionDatabaseAPIExtractor
 
 
 class TestNotionDatabaseAPIExtractor:

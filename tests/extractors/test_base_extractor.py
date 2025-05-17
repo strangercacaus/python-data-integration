@@ -1,6 +1,6 @@
 import pytest
 from abc import ABC, abstractmethod
-from src.extractors.base_extractor import GenericExtractor, GenericAPIExtractor, GenericDatabaseExtractor
+from src.sources.base_source import GenericExtractor, GenericAPIExtractor, GenericDatabaseExtractor
 
 
 class TestGenericExtractor:

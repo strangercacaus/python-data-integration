@@ -1,9 +1,0 @@
-SELECT ("CONTENT"->>'id')::integer AS id,
-("CONTENT"->>'code')::character varying AS code,
-("CONTENT"->>'description')::character varying AS description,
-("CONTENT"->>'id_user_creation')::integer AS id_user_creation,
-("CONTENT"->>'time_creation')::timestamp without time zone AS time_creation,
-("CONTENT"->>'id_user_modification')::integer AS id_user_modification,
-("CONTENT"->>'time_modification')::timestamp without time zone AS time_modification,
-("CONTENT"->>'ipi')::numeric AS ipi
-FROM {{source('bendito','bdt_raw_ncm')}}

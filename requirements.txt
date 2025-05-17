@@ -17,7 +17,3 @@ python-dotenv==1.0.0
 protobuf
 pytest==7.4.3
 pytest-mock==3.12.0
-dbt_core,
-dbt_postgres,
-dbt-extractor,
-dbt-semantic-interfaces
