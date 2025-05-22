@@ -5,7 +5,7 @@ import requests
 import pandas as pd
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
-from ..base_source import GenericAPIExtractor
+from .base import GenericAPIExtractor
 
 load_dotenv()
 

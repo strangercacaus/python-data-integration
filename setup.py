@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="bdt_data_integration",
+    name="python-data-integration",
     version="0.1.0",
     packages=find_packages(where='src'),  # Specify the source directory
     package_dir={'': 'src'},  # Set the root package directory
@@ -29,7 +29,7 @@ setup(
         "dbt-semantic-interfaces"
     ],
     author="Cauê Marchionatti Ausec",
-    author_email="caue@bendito.digital",
+    author_email="caue.ausec@gmail.com",
     description="A data integration library for ETL pipelines",
     long_description=open("readme.md").read(),
     long_description_content_type="text/markdown",

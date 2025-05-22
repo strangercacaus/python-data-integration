@@ -14,8 +14,8 @@ Each extractor class provides methods for:
 - Consolidating extracted data
 """
 
-from .base_source import GenericAPIExtractor
-from .notion.notion_extractor import NotionDatabaseAPIExtractor
+from .base import GenericAPIExtractor
+from .notion import NotionDatabaseAPIExtractor
 from .bendito_extractor import BenditoAPIExtractor
 from .bitrix_extractor import BitrixAPIExtractor
 

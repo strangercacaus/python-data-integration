@@ -8,16 +8,15 @@ from sqlalchemy.pool import QueuePool
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
-from .data_table import DataTable
+from ..models.table import DataTable
 
 
-class ConfigurationHelper:
-    def __init__(self, url, origin: str):
-        self.db_url = url
-        self.origin = origin
+class AppHelper:
+    def __init__(self, connection):
+        self.connection = connection
 
-    def get_table_configuration(self):
-        """Loads sync metadata information into a Pandas DataFrame."""
+    def get_appdata(self):
+        """Loads app data."""
         query = f"""SELECT *
         FROM public.table_configuration ct
         where ct.origin = '{self.origin}'"""

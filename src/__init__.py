@@ -6,16 +6,16 @@ from various sources to PostgreSQL databases.
 """
 
 # Import subpackages
-from .datastream.datastream import *
+from .Stream.Stream import *
 from .sources import *
 from .destinations import *
-from .metadata import *
+from .app import *
 from .utils import *
 
 __all__ = [
-    'datastream',
+    'Stream',
     'sources',
     'destinations',
-    'metadata',
+    'app',
     'utils'
 ]
