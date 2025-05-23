@@ -1,15 +1,10 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
-from datetime import datetime
+from typing import Any, Dict
 
 
 class BaseModel(ABC):
-    def __init__(
-        self, id: int, created_at: datetime.time = None, updated_at: datetime.time = None
-    ):
-        self.id = id
-        self.created_at = datetime.now() if created_at is None else created_at
-        self.updated_at = datetime.now() if updated_at is None else updated_at
+    def __init__(self):
+        pass
 
     @abstractmethod
     def to_dict(self) -> Dict[str, Any]:
@@ -23,4 +18,4 @@ class BaseModel(ABC):
         pass
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(id={self.id})"
+        return f"{self.__class__.__name__}"

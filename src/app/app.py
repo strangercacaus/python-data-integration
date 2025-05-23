@@ -8,7 +8,7 @@ from sqlalchemy.pool import QueuePool
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
-from ..models.table import DataTable
+from ..models.table_config import DataTable
 
 
 class AppHelper:
