@@ -34,27 +34,63 @@ class Stream:
     def load(self, records, chunksize=None):
         self.destination.load_data(df=records, chunksize=chunksize, mode="replace")
 
-    def prepare_destination(self):
+    def prepare_destination_columns(self):
 
-        if not self.destination.assert_schema_exists():
-            self.destination.create_schema()
+        errors = []
 
-        if not self.destination.assert_table_exists():
-            self.destination.create_table()
-        else:
-            source_columns = self.get_source_columns()
-            destination_columns = self.get_destination_columns()
-            for source_column in source_columns:
+        source_columns = self.get_source_columns()
+        destination_columns = self.get_destination_columns()
 
-                if source_column.name not in destination_columns.name:
-                    self.destination.create_column(source_column)
-                elif not source_column.equals(destination_columns[source_column]):
-                    if source_column.nullable != destination_columns[source_column.name].nullable:
-                        self.destination.update_column(source_column)
+        for column in source_columns:
+
+            if any(
+                column.name == dest_col.name
+                for dest_col in destination_columns.values()
+            ):
+                if not self.destination.assert_column_type(column.name, column.type):
+                    try:
+                        self.destination.alter_column(column)
+                    except Exception as e:
+                        column.active = False
+                        errors.append(
+                            {
+                                "schema": table.schema,
+                                "table": table.name,
+                                "column": column.name,
+                                "error": f"Não foi possível alterar o tipo da coluna {column.name} para {column.type}. Erro: {e}",
+                            }
+                        )
+            else:
+                self.destination.create_column(column)
+
+        for column in source_columns:
+            if column.active and column.indexed:
+                try:
+                    self.destination.create_index(column)
+                except Exception as e:
+                    column.active = False
+                    errors.append(
+                        {
+                            "schema": table.schema,
+                            "table": table.name,
+                            "column": column.name,
+                            "error": f"Não foi possível criar o índice da coluna {column.name}. Erro: {e}",
+                        }
+                    )
+
+        if len(errors) > 0:
+            text = "\n".join(
+                [
+                    f"Tabela: {error['Schema']}.{error['table']} - Coluna: {error['column']} - Erro: {error['error']}"
+                    for error in errors
+                ]
+            )
+            logger.error(
+                f"{__class__.__name__} - Os seguintes erros ocorreram ao realizar o  ajuste de colunas: {text}"
+            )
 
     def main(self):
 
         self.prepare_destination()
-
         records = self.extract()
         self.load(records, chunksize=None)

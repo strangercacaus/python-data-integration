@@ -1,4 +1,3 @@
-import csv
 import logging
 import psycopg2
 
@@ -13,6 +12,9 @@ from sqlalchemy.exc import (
 from src.connectors.destination.base import BaseDestination
 from src.models.table_config import TableConfig
 from src.models.column import Column
+from typing import Any
+from ....types.registry import TypeRegistry
+from .types import POSTGRESQL_TYPES
 
 logger = logging.getLogger("postgres_loader")
 
@@ -81,7 +83,13 @@ class PostgreSQLDestination(BaseDestination):
             nullable = "NULL" if column.nullable else "NOT NULL"
             connection.execute(
                 create_query,
-                [self.table_config.target_schema, self.table_config.target_name, column.name, column.type, column.nullable],
+                [
+                    self.table_config.target_schema,
+                    self.table_config.target_name,
+                    column.name,
+                    column.type,
+                    column.nullable,
+                ],
             )
 
     def alter_column_type(self, column: Column):
@@ -89,16 +97,26 @@ class PostgreSQLDestination(BaseDestination):
             alter_query = text("ALTER TABLE ?.? ALTER COLUMN ? TYPE ?")
             connection.execute(
                 alter_query,
-                [self.table_config.target_schema, self.table_config.target_name, column.name, column.type],
+                [
+                    self.table_config.target_schema,
+                    self.table_config.target_name,
+                    column.name,
+                    column.type,
+                ],
             )
-    
+
     def alter_column_nullable(self, column: Column):
         with self.engine.begin() as connection:
             alter_query = text("ALTER TABLE ?.? ALTER COLUMN ? SET ?")
             nullable = "NULL" if column.nullable else "NOT NULL"
             connection.execute(
                 alter_query,
-                [self.table_config.target_schema, self.table_config.target_name, column.name, nullable],
+                [
+                    self.table_config.target_schema,
+                    self.table_config.target_name,
+                    column.name,
+                    nullable,
+                ],
             )
 
     def truncate_table(self):
